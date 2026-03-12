@@ -3,67 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearningSpot | Education Menu</title>
+    <title>LearningSpot | Education Portal</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0f172a; font-family: sans-serif; }
-        
-        .nav-bar {
-            height: 50px;
-            background: #1e293b;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
+        body {
+            margin: 0;
+            background-color: #0f172a;
             color: white;
-            justify-content: space-between;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
         }
 
-        .back-btn {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 14px;
+        .portal-card {
+            background: #1e293b;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             border: 1px solid #334155;
-            padding: 4px 12px;
-            border-radius: 4px;
+            max-width: 400px;
         }
 
-        .container {
-            position: absolute;
-            top: 50px;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
+        h2 { margin: 0 0 10px 0; font-size: 1.5rem; }
+        p { color: #94a3b8; margin-bottom: 30px; line-height: 1.5; }
+
+        .launch-btn {
+            background: #4f46e5;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.2s, background 0.2s;
+            cursor: pointer;
             border: none;
+        }
+
+        .launch-btn:hover {
+            background: #6366f1;
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="nav-bar">
-        <a href="https://learningspot.vercel.app" class="back-btn">← Home</a>
-        <span>Education Portal</span>
-        <div style="width: 60px;"></div> </div>
-
-    <div class="container">
-        <iframe 
-            src="https://now.gg/apps/a/19900/b.html" 
-            id="edu-frame"
-            allow="autoplay; fullscreen; cursor-lock; clipboard-read; clipboard-write"
-            sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
-        ></iframe>
+    <div class="portal-card">
+        <div class="icon">🚀</div>
+        <h2>Ready to Begin?</h2>
+        <p>You are about to enter the <b>LearningSpot</b> external environment. This will open in a new secure window.</p>
+        
+        <button onclick="launchApp()" class="launch-btn">Launch Workspace</button>
+        
+        <a href="https://learningspot.vercel.app" class="back-link">Return to Home</a>
     </div>
 
     <script>
-        // Optional: If the site still blocks the proxy, 
-        // this script tries to force a reload after 2 seconds.
-        const frame = document.getElementById('edu-frame');
-        frame.onerror = function() {
-            console.log("Frame blocked. Attempting backup load...");
-        };
+        function launchApp() {
+            // Opens in a new window with specific dimensions to look like an app
+            const url = "https://now.gg/apps/a/19900/b.html";
+            const width = 1200;
+            const height = 800;
+            const left = (window.innerWidth / 2) - (width / 2);
+            const top = (window.innerHeight / 2) - (height / 2);
+
+            window.open(url, "LearningSpotPortal", 
+                `width=${width},height=${height},top=${top},left=${left},status=no,menubar=no,resizable=yes`
+            );
+        }
     </script>
+
 </body>
 </html>
