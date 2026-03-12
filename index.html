@@ -5,30 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LearningSpot | Education Hub</title>
     <style>
-        /* Reset and layout */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; /* Stops double scrolling */
-            background-color: #000;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        /* Your persistent header */
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
         .header {
             height: 50px;
             background: #1a1a1a;
             color: white;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             padding: 0 20px;
             border-bottom: 1px solid #333;
-            z-index: 100;
-            position: relative;
+            font-family: sans-serif;
         }
-
         .back-btn {
             color: #fff;
             text-decoration: none;
@@ -36,52 +23,42 @@
             padding: 6px 14px;
             border-radius: 6px;
             font-size: 13px;
-            font-weight: 600;
-            transition: opacity 0.2s;
         }
-
-        .back-btn:hover { opacity: 0.8; }
-
-        .status-dot {
-            height: 8px;
-            width: 8px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        /* The Iframe Wrapper */
-        .viewport {
-            width: 100%;
-            height: calc(100vh - 50px); /* Subtracts the header height */
-            background: #000;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        #container { width: 100%; height: calc(100vh - 50px); }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
     <header class="header">
         <a href="https://learningspot.vercel.app" class="back-btn">← Back to Hub</a>
-        <div style="font-size: 14px; color: #aaa;">
-            <span class="status-dot"></span> System Active
-        </div>
     </header>
 
-    <div class="viewport">
-        <iframe 
-            src="https://www.easyfun.gg/cloud-games/roblox.html" 
-            allow="autoplay; fullscreen; cursor-lock; clipboard-read; clipboard-write"
-            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-presentation"
-            title="Learning Content">
-        </iframe>
-    </div>
+    <div id="container"></div>
 
+    <script>
+        // We use an "About:Blank" trick to create a clean environment
+        // that doesn't trigger the same-origin policy as easily.
+        const targetUrl = "https://www.easyfun.gg/cloud-games/roblox.html";
+        const container = document.getElementById('container');
+        
+        const ifr = document.createElement('iframe');
+        ifr.src = "about:blank";
+        ifr.setAttribute("allow", "autoplay; fullscreen; cursor-lock");
+        container.appendChild(ifr);
+
+        const frameDoc = ifr.contentWindow.document;
+        frameDoc.open();
+        // This writes a script into the blank frame that forces the load 
+        // from inside a neutral environment.
+        frameDoc.write(`
+            <style>body,html{margin:0;padding:0;height:100%;overflow:hidden;}</style>
+            <iframe src="${targetUrl}" 
+                    style="width:100%;height:100%;border:none;" 
+                    allowfullscreen>
+            </iframe>
+        `);
+        frameDoc.close();
+    </script>
 </body>
 </html>
