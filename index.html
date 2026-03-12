@@ -3,78 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearningSpot | Education Portal</title>
+    <title>LearningSpot | Education Hub</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
-        
-        /* The "Frame" header you wanted to keep */
+        /* Reset and layout */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Stops double scrolling */
+            background-color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* Your persistent header */
         .header {
             height: 50px;
-            background: #111;
+            background: #1a1a1a;
             color: white;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: 0 20px;
             border-bottom: 1px solid #333;
-            position: relative;
             z-index: 100;
+            position: relative;
         }
 
         .back-btn {
-            color: #ccc;
+            color: #fff;
             text-decoration: none;
-            border: 1px solid #444;
-            padding: 5px 15px;
-            border-radius: 4px;
-            font-size: 14px;
+            background: #4f46e5;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: opacity 0.2s;
         }
 
-        /* The container for the content */
-        #portal-container {
+        .back-btn:hover { opacity: 0.8; }
+
+        .status-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /* The Iframe Wrapper */
+        .viewport {
             width: 100%;
-            height: calc(100vh - 50px);
-            border: none;
+            height: calc(100vh - 50px); /* Subtracts the header height */
+            background: #000;
         }
 
-        .loading-text {
-            color: #555;
-            text-align: center;
-            margin-top: 20%;
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <a href="https://learningspot.vercel.app" class="back-btn">← Exit Portal</a>
-        <span style="margin-left: 20px; font-weight: bold;">LearningSpot Viewer</span>
+    <header class="header">
+        <a href="https://learningspot.vercel.app" class="back-btn">← Back to Hub</a>
+        <div style="font-size: 14px; color: #aaa;">
+            <span class="status-dot"></span> System Active
+        </div>
+    </header>
+
+    <div class="viewport">
+        <iframe 
+            src="https://www.easyfun.gg/cloud-games/roblox.html" 
+            allow="autoplay; fullscreen; cursor-lock; clipboard-read; clipboard-write"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-presentation"
+            title="Learning Content">
+        </iframe>
     </div>
 
-    <div id="portal-container">
-        <div class="loading-text">Establishing Secure Connection...</div>
-    </div>
-
-    <script>
-        // Instead of a standard iframe that gets blocked, 
-        // we "inject" the content. If the browser blocks the embed,
-        // it will automatically fall back to a full-page view so it doesn't stay blank.
-        
-        setTimeout(() => {
-            const container = document.getElementById('portal-container');
-            
-            // Attempting the embed
-            container.innerHTML = `<iframe 
-                src="https://now.gg/" 
-                style="width:100%; height:100%; border:none;"
-                allow="autoplay; fullscreen; cursor-lock"
-                onsubmit="console.log('Load Attempted')"
-            ></iframe>`;
-
-            // Check if it failed after 3 seconds
-            setTimeout(() => {
-                console.log("If the screen is still blank, the browser blocked the iframe security.");
-            }, 3000);
-        }, 1000);
-    </script>
 </body>
 </html>
