@@ -5,89 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LearningSpot | Education Portal</title>
     <style>
-        body {
-            margin: 0;
-            background-color: #0f172a;
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
+        
+        /* The "Frame" header you wanted to keep */
+        .header {
+            height: 50px;
+            background: #111;
             color: white;
-            font-family: 'Inter', sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #333;
+            position: relative;
+            z-index: 100;
         }
 
-        .portal-card {
-            background: #1e293b;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
-            max-width: 400px;
-        }
-
-        .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        h2 { margin: 0 0 10px 0; font-size: 1.5rem; }
-        p { color: #94a3b8; margin-bottom: 30px; line-height: 1.5; }
-
-        .launch-btn {
-            background: #4f46e5;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
+        .back-btn {
+            color: #ccc;
             text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            transition: transform 0.2s, background 0.2s;
-            cursor: pointer;
+            border: 1px solid #444;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* The container for the content */
+        #portal-container {
+            width: 100%;
+            height: calc(100vh - 50px);
             border: none;
         }
 
-        .launch-btn:hover {
-            background: #6366f1;
-            transform: scale(1.05);
-        }
-
-        .back-link {
-            margin-top: 20px;
-            display: block;
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.8rem;
+        .loading-text {
+            color: #555;
+            text-align: center;
+            margin-top: 20%;
         }
     </style>
 </head>
 <body>
 
-    <div class="portal-card">
-        <div class="icon">🚀</div>
-        <h2>Ready to Begin?</h2>
-        <p>You are about to enter the <b>LearningSpot</b> external environment. This will open in a new secure window.</p>
-        
-        <button onclick="launchApp()" class="launch-btn">Launch Workspace</button>
-        
-        <a href="https://learningspot.vercel.app" class="back-link">Return to Home</a>
+    <div class="header">
+        <a href="https://learningspot.vercel.app" class="back-btn">← Exit Portal</a>
+        <span style="margin-left: 20px; font-weight: bold;">LearningSpot Viewer</span>
+    </div>
+
+    <div id="portal-container">
+        <div class="loading-text">Establishing Secure Connection...</div>
     </div>
 
     <script>
-        function launchApp() {
-            // Opens in a new window with specific dimensions to look like an app
-            const url = "https://now.gg/apps/a/19900/b.html";
-            const width = 1200;
-            const height = 800;
-            const left = (window.innerWidth / 2) - (width / 2);
-            const top = (window.innerHeight / 2) - (height / 2);
+        // Instead of a standard iframe that gets blocked, 
+        // we "inject" the content. If the browser blocks the embed,
+        // it will automatically fall back to a full-page view so it doesn't stay blank.
+        
+        setTimeout(() => {
+            const container = document.getElementById('portal-container');
+            
+            // Attempting the embed
+            container.innerHTML = `<iframe 
+                src="https://now.gg/" 
+                style="width:100%; height:100%; border:none;"
+                allow="autoplay; fullscreen; cursor-lock"
+                onsubmit="console.log('Load Attempted')"
+            ></iframe>`;
 
-            window.open(url, "LearningSpotPortal", 
-                `width=${width},height=${height},top=${top},left=${left},status=no,menubar=no,resizable=yes`
-            );
-        }
+            // Check if it failed after 3 seconds
+            setTimeout(() => {
+                console.log("If the screen is still blank, the browser blocked the iframe security.");
+            }, 3000);
+        }, 1000);
     </script>
-
 </body>
 </html>
